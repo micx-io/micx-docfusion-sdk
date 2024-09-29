@@ -13,9 +13,13 @@
     ],
     "require": {
         "php": ">=8.1",
-        "phore/http-client": "*"
+        "phore/http-client": "*",
+        "phore/service-exception": "*"
     },
 
+    "suggest": {
+        "phore/hydrator": "For automatic object hydration"
+    },
     "require-dev": {
         "phore/tester": "*"
     },
