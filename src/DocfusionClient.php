@@ -2,6 +2,9 @@
 
 namespace Micx\SDK\Docfusion;
 
+use Micx\SDK\Docfusion\Type\ApiIntelliParseRequest;
+use Micx\SDK\Docfusion\Type\ApiIntelliParseResponse;
+
 class DocfusionClient
 {
 
@@ -11,28 +14,21 @@ class DocfusionClient
         private ?string $serverUrl = null)
     {
         if ($serverUrl === null) {
-            $this->serverUrl = "https://ws.micx.io/docfusion";
+            $this->serverUrl = "https://ws.micx.io/docfusion/api/v1";
         }
-    }
 
-    /**
-     * @template T
-     * @param string $documentData
-     * @param class-string<T> $className
-     * @param string $context
-     * @return T
-     */
-    public function extractDataFromDocument(string $documentData, DocfusionDocumentFormat $documentFormat, string $className, string $context = "") {
-
-    }
-
-    public function extractDataFromFile(string $file, string $className, string $context = "") {
 
     }
 
 
-    public function answerDocument(string $documentData, DocfusionDocumentFormat $documentFormat, string $question, string $context = "") {
+    public function intelliparse(ApiIntelliParseRequest $request) : ApiIntelliParseResponse {
 
+        return phore_http_request($this->serverUrl . "/" . $this->subscriptionId . "/intelliparse")
+            ->withBasicAuth($this->accessToken)
+            ->withJsonBody((array)$request)
+            ->send()
+            ->getBodyJson(ApiIntelliParseResponse::class);
     }
+
 
 }
