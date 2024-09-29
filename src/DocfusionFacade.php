@@ -2,6 +2,7 @@
 
 namespace Micx\SDK\Docfusion;
 
+use Micx\SDK\Docfusion\Helper\JsonSchemaGenerator;
 use Micx\SDK\Docfusion\Type\ApiIntelliParseRequest;
 use Micx\SDK\Docfusion\Type\ApiIntelliParseResponse;
 
@@ -32,6 +33,8 @@ class DocfusionFacade
                 throw new \InvalidArgumentException("File not found: $filename");
         }
 
+        if ($cast !== null)
+            $schema = (new JsonSchemaGenerator())->convertToJsonSchema($cast);
 
         return $this->client->intelliparse(new ApiIntelliParseRequest(
             doc_filename: $filename,
