@@ -7,7 +7,7 @@ use Micx\SDK\Docfusion\Type\ApiIntelliParseRequest;
 use Micx\SDK\Docfusion\Type\ApiIntelliParseResponse;
 
 /**
- * @template T
+ *
  */
 class DocfusionFacade
 {
@@ -18,6 +18,7 @@ class DocfusionFacade
 
 
     /**
+     * @template T
      * @param string $filename
      * @param array|null $schema
      * @param $instructions
@@ -25,16 +26,13 @@ class DocfusionFacade
      * @param class-string<T>|null $cast
      * @return ApiIntelliParseResponse<T>
      */
-    public function promptFile(string $filename, array|null $schema=null, $instructions = null, string $fileData =null, string|null $cast = null) : ApiIntelliParseResponse
+    public function promptFile(string $filename, array|null $schema=null, $instructions = "", string $fileData =null) : ApiIntelliParseResponse
     {
         if ($fileData === null) {
             $fileData = file_get_contents($filename);
             if ($fileData === false)
                 throw new \InvalidArgumentException("File not found: $filename");
         }
-
-        if ($cast !== null)
-            $schema = (new JsonSchemaGenerator())->convertToJsonSchema($cast);
 
         return $this->client->intelliparse(new ApiIntelliParseRequest(
             doc_filename: $filename,
@@ -49,6 +47,19 @@ class DocfusionFacade
     }
 
 
+    /***
+     * @template T
+     * @param string $filename
+     * @param class-string<T> $cast
+     * @param $instructions
+     * @param string|null $fileData
+     * @return T
+     */
+    public function promptFileWithCast(string $filename, string $cast, $instructions = "", string $fileData =null)
+    {
+        $schema = (new JsonSchemaGenerator())->convertToJsonSchema($cast);
+        return $this->promptFile($filename, $schema, $instructions, $fileData)->getCastedOutput($cast);
+    }
 
 
 }

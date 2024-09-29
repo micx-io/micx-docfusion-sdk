@@ -4,7 +4,7 @@ namespace Micx\SDK\Docfusion\Type;
 
 
 /**
- * @template T
+ * 
  *
  */
 class ApiIntelliParseResponse
@@ -23,19 +23,20 @@ class ApiIntelliParseResponse
         public string $response_format,
         public string|array $response_data,
         public ?string $icon_b64_woff_data = null,
-        public ?string $castOutput = null
+
     ) {
     }
 
     /**
      * @return mixed|T
+     * @param class-string<T>|null $cast
      */
-    public function getCastedOutput() : mixed {
+    public function getCastedOutput(?string $cast) : mixed {
         if ($this->castOutput === null)
             return $this->response_data;
         if (! function_exists("phore_hydrate"))
             throw new \InvalidArgumentException("phore/hydrator not found. Please install phore/hydrator to use casting.");
-        return phore_hydrate($this->response_data, $this->castOutput);
+        return phore_hydrate($this->response_data, $cast);
     }
     public string $version = "1.0";
 
