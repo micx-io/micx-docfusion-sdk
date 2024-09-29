@@ -14,7 +14,7 @@ class DocfusionClient
         private ?string $serverUrl = null)
     {
         if ($serverUrl === null) {
-            $this->serverUrl = "https://ws.micx.io/docfusion/api/v1";
+            $this->serverUrl = "https://ws.micx.io/v1/docfusion/api";
         }
 
 
