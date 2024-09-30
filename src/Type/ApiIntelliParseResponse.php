@@ -4,7 +4,7 @@ namespace Micx\SDK\Docfusion\Type;
 
 
 /**
- * 
+ *
  *
  */
 class ApiIntelliParseResponse
@@ -31,8 +31,8 @@ class ApiIntelliParseResponse
      * @return mixed|T
      * @param class-string<T>|null $cast
      */
-    public function getCastedOutput(?string $cast) : mixed {
-        if ($this->castOutput === null)
+    public function getCastedOutput(?string $cast) : array|object {
+        if ($cast === null)
             return $this->response_data;
         if (! function_exists("phore_hydrate"))
             throw new \InvalidArgumentException("phore/hydrator not found. Please install phore/hydrator to use casting.");

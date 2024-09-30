@@ -23,11 +23,18 @@ class DocfusionClient
 
     public function intelliparse(ApiIntelliParseRequest $request) : ApiIntelliParseResponse {
 
-        return phore_http_request($this->serverUrl . "/" . $this->subscriptionId . "/intelliparse")
+        $data = phore_http_request($this->serverUrl . "/" . $this->subscriptionId . "/intelliparse")
             ->withBasicAuth($this->accessToken)
             ->withJsonBody((array)$request)
             ->send()
-            ->getBodyJson(ApiIntelliParseResponse::class);
+            ->getBodyJson();
+
+        return new ApiIntelliParseResponse(
+            $data['doc_filename'],
+            $data['response_format'],
+            $data['response_data'],
+            $data['icon_b64_woff_data']
+        );
     }
 
 
