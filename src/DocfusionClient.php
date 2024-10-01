@@ -28,12 +28,13 @@ class DocfusionClient
             ->withJsonBody((array)$request)
             ->send()
             ->getBodyJson();
-
+        
         return new ApiIntelliParseResponse(
             $data['doc_filename'],
             $data['response_format'],
             $data['response_data'],
-            $data['icon_b64_woff_data']
+            $data['icon_b64_woff_data'],
+            $data['raw_text']
         );
     }
 

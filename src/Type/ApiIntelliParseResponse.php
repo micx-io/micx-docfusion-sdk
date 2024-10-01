@@ -23,6 +23,7 @@ class ApiIntelliParseResponse
         public string $response_format,
         public string|array $response_data,
         public ?string $icon_b64_woff_data = null,
+        public ?string $raw_text = null,
 
     ) {
     }
@@ -32,6 +33,7 @@ class ApiIntelliParseResponse
      * @param class-string<T>|null $cast
      */
     public function getCastedOutput(?string $cast) : array|object {
+        
         if ($cast === null)
             return $this->response_data;
         if (! function_exists("phore_hydrate"))

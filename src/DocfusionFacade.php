@@ -34,7 +34,7 @@ class DocfusionFacade
                 throw new \InvalidArgumentException("File not found: $filename");
         }
 
-        return $this->client->intelliparse(new ApiIntelliParseRequest(
+        $request = new ApiIntelliParseRequest(
             doc_filename: $filename,
             doc_b64_data: base64_encode($fileData),
             output_json_schema: $schema,
@@ -43,7 +43,9 @@ class DocfusionFacade
             thumbnail_format: "woff",
             thumbnail_type: "fit",
             prompt_instructions: $instructions
-        ));
+        );
+        $response = $this->client->intelliparse($request);
+        return $response;
     }
 
 
